@@ -1,6 +1,11 @@
+"""PySpark-based rating normalization script.
+
+@author Shiva Deviah
+"""
 import json
 import shutil
 import glob
+import os
 
 import pyspark
 from pyspark import SparkContext, SparkConf
@@ -23,16 +28,20 @@ data = (sc.textFile('yelp_dataset/yelp_academic_dataset_review.json')
 
 (data
     # Group on user_id.
-    .groupBy(F.col('user_id').alias('user_id_2'))  
+    .groupBy(F.col('user_id').alias('user_id#2'))  
     # Find the mean.
     .mean('stars')                                 
     .withColumnRenamed('avg(stars)', 'average_stars')
     # Join mean with data. 
-    .join(data, F.col('user_id') == F.col('user_id_2'), 'inner')  
-    # Normalize stars by mean rating. 
+    .join(data, F.col('user_id') == F.col('user_id#2'), 'inner')  
+    # Mean-shift stars by mean user rating. 
     .withColumn('stars_normalized', F.col('stars') - F.col('average_stars'))  
     # Drop unneeded columns.
-    .drop('user_id_2', 'average_stars', 'stars')   
+    .drop('user_id#2', 'average_stars', 'stars')
+    # Group on business_id.   
+    .groupby(F.col('business_id'))
+    # Find the mean business rating.
+    .mean('stars_normalized')
     # Coalesce to single partition and write to disk.
     .coalesce(1)  
     .write
