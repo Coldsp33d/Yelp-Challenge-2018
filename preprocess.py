@@ -39,7 +39,8 @@ business_json_df = business_json_df[mask]
 review_df = (pd.read_csv('yelp_dataset/review_normalized.csv', header=None, names=['business_id', 'rating'])
                 .set_index('business_id'))
 # Load altitude data. Altitude information has been extracted using the QGIS tool.
-elevation_df = pd.read_csv("yelp_dataset/altitude.csv").set_index('business_id')
+elevation_df = (pd.read_csv("yelp_dataset/altitude.csv", usecols=['business_id', 'elevation'])
+                 .set_index('business_id'))
 print('Done Loading Data.')
 
 attributes = business_json_df.pop('attributes')
