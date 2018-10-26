@@ -4,9 +4,10 @@ Extract attributes from the "attributes" column, flatten, and join with business
 Script takes ~45 seconds to complete on Mac OSX High Sierra (2013 Model) i7.
 @author Shiva Deviah
 """
-import os
 import re
 import ast
+import os
+import sys
 
 import pandas as pd
 import numpy as np
@@ -57,9 +58,9 @@ bool_cols = ['BikeParking', 'BusinessAcceptsCreditCards', 'Caters', 'GoodForKids
              'WheelchairAccessible']
 bool_df = attr_df[bool_cols].fillna('False').applymap({'True': 1, 'False': 0}.get)
 # Handle attributes with dictionaries of sub-categories.
-mult_col = ['Ambience', 'BusinessParking', 'GoodForMeal']
+mult_cols = ['Ambience', 'BusinessParking', 'GoodForMeal']
 mult_df = []
-for c in mult_col:
+for c in mult_cols:
     df = attr_df[c].dropna()
     df = (pd.DataFrame(df.apply(ast.literal_eval).tolist(), 
                        index=df.index)
