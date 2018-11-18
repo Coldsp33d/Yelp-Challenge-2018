@@ -136,7 +136,7 @@ business_json_df = (
 
 if args['withCluster']:
     print('============Creating Category Column.')
-    outFile_name += f'_withCluster<{args["clusterScheme"].title()}>'
+    outFile_name += f'_withCluster_{args["clusterScheme"].title()}'
 
     regions = {
         'Spanish', 'Portuguese', 'Latin American', 'African', 'Japanese', 
@@ -160,7 +160,7 @@ if args['withCluster']:
         
         v = business_json_df['categories'].map(lambda x: regions.intersection(x.split(', ')))
         label = 'catRegion_label'
-    else:
+    elif args['clusterScheme'] == 'svd':
         temp = business_json_df.dropna(subset=['categories'])
         temp = temp[[any(c in x for c in cats) for x in temp['categories']]]
 
@@ -197,6 +197,8 @@ if args['withCluster']:
 
         v = business_json_df['categories'].map(lambda x: cats.intersection(x.split(', ')))
         label = f'cat{len(cats)}_label'
+    else:
+        raise NotImplementedError
 
     v = v[v.str.len().gt(0)]
     # Resolution order for multiple categories is to take the most common (mode) in the dataset.
