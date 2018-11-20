@@ -1,5 +1,5 @@
 import pickle
-from business_suggestion import DocLite
+from utils import DocLite
 import pandas as pd
 import spacy
 
