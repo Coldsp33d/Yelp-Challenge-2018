@@ -25,3 +25,9 @@ class NlpLite:
 
     def __call__(self, key):
         return self.cache[key]
+
+
+class ModelWrapper:
+    def __init__(self, clf, fdict):
+        self.clf = clf
+        self.fdict = fdict
