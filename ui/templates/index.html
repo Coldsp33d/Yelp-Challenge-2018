@@ -7,8 +7,8 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
+	<script type="text/javascript" src="/js/application.js"></script>
+    <title>Business Insights</title>
   </head>
   <body>
         <div class="container-fluid">
@@ -26,8 +26,8 @@
 						<div class="form-row">
 							<div class="col-md-2 mb-1">
 								<div class="custom-control custom-checkbox mb-3">
-									<input type="checkbox" class="custom-control-input" id="bussiness-card" required>
-									<label class="custom-control-label" for="business-card">Accepts Business Cards</label>
+									<input type="checkbox" class="custom-control-input" id="card" required>
+									<label class="custom-control-label" for="card">Accepts Business Cards</label>
 								</div>
 							</div>
 							<div class="col-md-2 mb-1">
@@ -88,8 +88,8 @@
 							</div>
 							<div class="col-md-2 mb-1">
 								<div class="custom-control custom-checkbox mb-3">
-									<input type="checkbox" class="custom-control-input" id="take-out" required>
-									<label class="custom-control-label" for="take-out">Take Out Service</label>
+									<input type="checkbox" class="custom-control-input" id="takeout" required>
+									<label class="custom-control-label" for="takeout">Take Out Service</label>
 								</div>
 							</div>
 							<div class="col-md-2 mb-1">
@@ -148,6 +148,164 @@
 									<option selected>Not Applicable</option>
 								</select>
 							</div>
+							<div class="form-group col-md-2">
+								<input class="form-control my-1 mr-sm-2" type="text" list="cars" id="category" placeholder="Category" data-error-msg="Must Specify Restaurant Category" required/>
+									<datalist id="cars">
+										<option>Active Life</option>
+										<option>Adult Entertainment</option>
+										<option>Afghan</option>
+										<option>Arcades</option>
+										<option>Arts & Entertainment</option>
+										<option>Automotive</option>
+										<option>Bagels</option>
+										<option>Bakeries</option>
+										<option>Barbeque</option>
+										<option>Barbers</option>
+										<option>Barre Classes</option>
+										<option>Bars</option>
+										<option>Beauty & Spas</option>
+										<option>Beer</option>
+										<option>Beer Bar</option>
+										<option>Bistros</option>
+										<option>Brasseries</option>
+										<option>Breakfast & Brunch</option>
+										<option>Breweries</option>
+										<option>Bubble Tea</option>
+										<option>Buffets</option>
+										<option>Burgers</option>
+										<option>Butcher</option>
+										<option>Cafes</option>
+										<option>Cajun/Creole</option>
+										<option>Candy Stores</option>
+										<option>Car Wash</option>
+										<option>Casinos</option>
+										<option>Caterers</option>
+										<option>Cheese Shops</option>
+										<option>Cheesesteaks</option>
+										<option>Chicken Shop</option>
+										<option>Chicken Wings</option>
+										<option>Chocolatiers & Shops</option>
+										<option>Cocktail Bars</option>
+										<option>Coffee & Tea</option>
+										<option>Coffee Roasteries</option>
+										<option>Comfort Food</option>
+										<option>Convenience Stores</option>
+										<option>Cosmetics & Beauty Supply</option>
+										<option>Creperies</option>
+										<option>Cupcakes</option>
+										<option>Custom Cakes</option>
+										<option>Dance Clubs</option>
+										<option>Delicatessen</option>
+										<option>Delis</option>
+										<option>Department Stores</option>
+										<option>Desserts</option>
+										<option>Dim Sum</option>
+										<option>Diners</option>
+										<option>Discount Store</option>
+										<option>Dive Bars</option>
+										<option>Do-It-Yourself Food</option>
+										<option>Donuts</option>
+										<option>Drugstores</option>
+										<option>Education</option>
+										<option>Electronics</option>
+										<option>Ethnic Food</option>
+										<option>Event Planning & Services</option>
+										<option>Falafel</option>
+										<option>Farmers Market</option>
+										<option>Fashion</option>
+										<option>Fast Food</option>
+										<option>Fish & Chips</option>
+										<option>Fitness & Instruction</option>
+										<option>Florists</option>
+										<option>Flowers & Gifts</option>
+										<option>Food Court</option>
+										<option>Food Delivery Services</option>
+										<option>Food Stands</option>
+										<option>Food Trucks</option>
+										<option>Fruits & Veggies</option>
+										<option>Gas Stations</option>
+										<option>Gastropubs</option>
+										<option>Gay Bars</option>
+										<option>Gelato</option>
+										<option>Gift Shops</option>
+										<option>Gluten-Free</option>
+										<option>Grocery</option>
+										<option>Hair Removal</option>
+										<option>Hair Salons</option>
+										<option>Hair Stylists</option>
+										<option>Halal</option>
+										<option>Health & Medical</option>
+										<option>Health Markets</option>
+										<option>Herbs & Spices</option>
+										<option>Home & Garden</option>
+										<option>Home Services</option>
+										<option>Hookah Bars</option>
+										<option>Hot Dogs</option>
+										<option>Hot Pot</option>
+										<option>Hotels</option>
+										<option>Hotels & Travel</option>
+										<option>Ice Cream & Frozen Yogurt</option>
+										<option>Imported Food</option>
+										<option>International Grocery</option>
+										<option>Internet Cafes</option>
+										<option>Irish Pub</option>
+										<option>Juice Bars & Smoothies</option>
+										<option>Karaoke</option>
+										<option>Kosher</option>
+										<option>Local Flavor</option>
+										<option>Local Services</option>
+										<option>Lounges</option>
+										<option>Meat Shops</option>
+										<option>Men's Hair Salons</option>
+										<option>Mexican</option>
+										<option>Mobile Phones</option>
+										<option>Modern European</option>
+										<option>Music Venues</option>
+										<option>Nightlife</option>
+										<option>Noodles</option>
+										<option>Organic Stores</option>
+										<option>Party & Event Planning</option>
+										<option>Patisserie/Cake Shop</option>
+										<option>Photography Stores & Services</option>
+										<option>Pizza</option>
+										<option>Poke</option>
+										<option>Pool Halls</option>
+										<option>Poutineries</option>
+										<option>Professional Services</option>
+										<option>Pubs</option>
+										<option>Ramen</option>
+										<option>Salad</option>
+										<option>Sandwiches</option>
+										<option>Seafood</option>
+										<option>Seafood Markets</option>
+										<option>Shaved Ice</option>
+										<option>Shopping</option>
+										<option>Soul Food</option>
+										<option>Soup</option>
+										<option>Southern</option>
+										<option>Specialty Food</option>
+										<option>Sports Bars</option>
+										<option>Steakhouses</option>
+										<option>Street Vendors</option>
+										<option>Sushi Bars</option>
+										<option>Tacos</option>
+										<option>Tapas Bars</option>
+										<option>Tapas/Small Plates</option>
+										<option>Tea Rooms</option>
+										<option>Tex-Mex</option>
+										<option>Tobacco Shops</option>
+										<option>Vegan</option>
+										<option>Vegetarian</option>
+										<option>Venues & Event Spaces</option>
+										<option>Vitamins & Supplements</option>
+										<option>Waffles</option>
+										<option>Wine & Spirits</option>
+										<option>Wine Bars</option>
+										<option>Wineries</option>
+										<option>Wraps</option>
+									</datalist>
+								</input>
+							</div>
 						</div>
 						
 					</form>
@@ -166,13 +324,13 @@
 						</div>
 					</form>
 					-->
-					<a href="#" class="btn btn-primary">Submit</a>
+					<a href="#" class="btn btn-primary" onclick="postUserAttributes()">Submit</a>
 				</div>
 			</div>
 		</div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   </body>
