@@ -8,6 +8,7 @@ from pyspark.mllib.linalg import Vectors
 from pyspark.mllib.linalg.distributed import RowMatrix
 
 from timeit import default_timer as timer
+from utils import str2bool
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -24,14 +25,6 @@ def is_valid_attr(dct):
 
 def freq_encode(ser):
         return ser.map(ser.value_counts(normalize=True))
-
-def str2bool(v):
-        if v.lower() in ('yes', 'true', 't', 'y', '1'):
-                return True
-        elif v.lower() in ('no', 'false', 'f', 'n', '0'):
-                return False
-        else:
-                raise argparse.ArgumentTypeError('Boolean value expected.')
 
 try:
         del os.environ['PYSPARK_SUBMIT_ARGS']
