@@ -43,15 +43,15 @@ X_train, X_test, y_train, y_test = train_test_split(
 print('XGBoost Version:', xgb.__version__)
 
 # Train XGB model using GridSearchCV.
-parameters = {'nthread':[4], #when use hyperthread, xgboost may become slower
+parameters = {'nthread':[4], # when use hyperthread, xgboost may become slower
               'objective':['reg:linear'],
-              'learning_rate': [0.25], #so called `eta` value
+              'learning_rate': [0.25], # so called `eta` value
               'max_depth': [6],
               'min_child_weight': [11],
               'silent': [1],
               'subsample': [0.8],
               'colsample_bytree': [0.3, 0.7],
-              'n_estimators': [100], #number of trees
+              'n_estimators': [500], # number of trees
               'seed': [1337]}
 
 xgb_model = xgb.XGBRegressor()
