@@ -24,9 +24,6 @@ def transform_df(df, fdict):
 
 
 if __name__ == '__main__':
-	SAMPLE_SIZE = int(sys.argv[1])
-	SEED = int(sys.argv[2]) if len(sys.argv) > 2 else 0
-
 	parser = argparse.ArgumentParser(description='Business Success Prediction - Offline Evaluation Script.')
 	parser.add_argument('--randomDropout', 
 	                    required=False,
@@ -36,7 +33,20 @@ if __name__ == '__main__':
 	                    default=False,
 	                    help="Randomly drop attributes in samples before suggestion.")
 
-	args = vars(parser.parse_args())
+	parser.add_argument('--sampleSize', 
+	                    required=False,
+	                    type=int,
+	                    default=1000,)
+
+	parser.add_argument('--seed', 
+	                    required=False,
+	                    type=int,
+	                    default=0,)
+
+	args = vars(parser.parse_args())	
+
+	SAMPLE_SIZE = args['sampleSize']
+	SEED = args['seed']
 
 	df_ = (pd.read_csv('yelp_dataset/businesses_withOtherBusinesses_withCluster_{}_test.csv'.format(HOW))
 	             .drop(['business_id', 'categories', 'rating'], 1)
