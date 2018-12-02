@@ -49,9 +49,9 @@ if __name__ == '__main__':
 	SEED = args['seed']
 
 	df_ = (pd.read_csv('yelp_dataset/businesses_withOtherBusinesses_withCluster_{}_test.csv'.format(HOW))
-	             .drop(['business_id', 'categories', 'rating'], 1)
-	             .dropna(subset=[CAT_LABEL])
-	             .sample(n=SAMPLE_SIZE, random_state=SEED))
+             .drop(['business_id', 'categories', 'rating'], 1)
+             .dropna(subset=[CAT_LABEL])
+             .sample(n=SAMPLE_SIZE, random_state=SEED))
 
 	model = model = joblib.load('models/model_withCluster_{}_train'.format(HOW))
 	preds1 = model.clf.predict(transform_df(df_, model.fdict).reindex(cols, axis=1).values)
@@ -96,5 +96,5 @@ if __name__ == '__main__':
 	preds1, preds2, preds3 = preds1[~m], preds2[~m], preds3[~m]
 	diff = preds3 - preds2
 
-	print("Accuracy: {}%".format((preds3 > preds2).mean() * 100))
+	print("Accuracy: {:.2f}%".format((preds3 > preds2).mean() * 100))
 	print("Average Improvement (+ve examples):", diff[diff > 0].mean() ** .5)
