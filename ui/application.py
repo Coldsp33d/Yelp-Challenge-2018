@@ -2,11 +2,13 @@ from flask import Flask, render_template, send_from_directory, request
 import joblib
 import numpy as np
 import sys, os
+import json
 
 sys.path.append(os.path.abspath('..'))
 import transform_business_preferences
 
 app = Flask(__name__)
+model = joblib.load('../models/model_withCluster_Svd')
 
 @app.route("/")
 def hello():
@@ -16,36 +18,18 @@ def hello():
 def predict():
 	try:
 		data = request.json
-		print(data)
-		print("Hello World!!")
-		business_category = 'Italian' 
-		business_preferences = {
-			'Alcohol': 'none',
-			'BikeParking':0,
-			'BusinessAcceptsCreditCards':1,
-			'Caters':0,
-			'GoodForKids':0,
-			'NoiseLevel':'loud',
-			'OutdoorSeating':1,
-			'RestaurantsAttire':'formal',
-			'RestaurantsDelivery':1,
-			'RestaurantsGoodForGroups':0,
-			'RestaurantsPriceRange2':2,
-			'RestaurantsReservations':1,
-			'RestaurantsTableService':0,
-			'RestaurantsTakeOut':1,
-			'WheelchairAccessible':0,
-			'WiFi':'no',
-			# CAT_LABEL: business_category
-		}
-		most_similar_business_category, new = transform_business_preferences.preprocess_user_data(business_preferences, business_category)
+		prefrences = data['Attributes']
+		
+		for key in prefrences:
+			if prefrences[key] == 'na':
+				prefrences[key] = np.nan
+				
+		business_category = data['Category']
+		most_similar_business_category, new = transform_business_preferences.preprocess_user_data(prefrences, business_category)
 		print(new)
 		print("Hello World!!")
-		#this is a single line comment
-		clf = joblib.load('../models/model')
-		input = [[np.nan, 0.00000000e+00, 1.00000000e+00,np.nan,1.00000000e+00, 1.00000000e+00, 6.50445558e-01, 0.00000000e+00,9.69024436e-01, 0.00000000e+00, 1.00000000e+00, 5.31537743e-01, 1.00000000e+00, np.nan, 1.00000000e+00, np.nan, np.nan, 1.07600000e+03]]
-		output = clf.predict(input)
-		return str(output[0])
+		business_predicted_rating = model.clf.predict([new.tolist()])[0]
+		return str(business_predicted_rating)
 	except Exception as e:
 		return str(e)
 
