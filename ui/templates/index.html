@@ -24,6 +24,11 @@
 					<h5 class="card-title">Specify Business Attributes</h5>
 					<form class="was-validated">
 						<div class="form-row">
+							<div class="col-md-2 mb-1">
+							<input type="text" class="form-control" id="distanceac" placeholder="Enter a Location">
+							</div>
+						</div>
+						<div class="form-row">
 							<div class="col-md-2 mb-1" ng-repeat="booleanAttribute in booleanAttributes">
 								<div class="custom-control custom-checkbox mb-3">
 									<input type="checkbox" class="custom-control-input" id="[[booleanAttribute.id]]" ng-model="booleanAttribute.selected" ng-true-value="1" ng-false-value="0"required>
@@ -60,7 +65,7 @@
 
 						<!-- Title -->
 						<h6 class="card-title text-uppercase text-muted mb-2">
-							Chance of Success
+							Chance of Success (Before)
 						</h6>
 
 						<!-- Heading -->
@@ -70,61 +75,45 @@
 
 						<!-- Badge -->
 						<span class="badge badge-soft-success mt--1" id="percentimprovement">
-						  +0.0%
+						  
 						</span>
 
 					</div>
-					<div class="col-auto">
+					<div class="col">
+						<!-- Title -->
+						<h6 class="card-title text-uppercase text-muted mb-2">
+							Chance of Success (After)
+						</h6>
 
-						<!-- Icon -->
-						<span class="h2 fe fe-dollar-sign text-muted mb-0"></span>
-
+						<!-- Heading -->
+						<span class="h2 mb-0" id="successratingafter">
+						  
+						</span>
+						<!-- Badge -->
+						<span class="badge badge-soft-success mt--1" id="percentimprovement">
+						  
+						</span>
 					</div>
 				</div> <!-- / .row -->
 			</div>
         </div>
-		<div class="container">
-		<h2>Contextual Classes</h2>
-		<p>Contextual classes can be used to color table rows or table cells. The classes that can be used are: .active, .success, .info, .warning, and .danger.</p>
-		<table class="table">
+		<div class="container-fluid" style="display: none" id="error">
+			<div class="alert alert-danger" role="alert" id="errordetails">
+				
+			</div>
+		</div>
+		<div class="container-fluid" id="insightstable" style="display: none">
+		<h2>Business Insights</h2>
+		<table class="table" id="suggestiontable">
 			<thead>
 				<tr>
-					<th>Firstname</th>
-					<th>Lastname</th>
-					<th>Email</th>
+					<th>Attributes</th>
+					<th>Current</th>
+					<th>Suggested</th>
 				</tr>
 			</thead>
 			<tbody>
-			<tr>
-			<td>Default</td>
-			<td>Defaultson</td>
-			<td>def@somemail.com</td>
-			</tr>      
-			<tr class="success">
-			<td>Success</td>
-			<td>Doe</td>
-			<td>john@example.com</td>
-			</tr>
-			<tr class="danger">
-			<td>Danger</td>
-			<td>Moe</td>
-			<td>mary@example.com</td>
-			</tr>
-			<tr class="info">
-			<td>Info</td>
-			<td>Dooley</td>
-			<td>july@example.com</td>
-			</tr>
-			<tr class="warning">
-			<td>Warning</td>
-			<td>Refs</td>
-			<td>bo@example.com</td>
-			</tr>
-			<tr class="active">
-			<td>Active</td>
-			<td>Activeson</td>
-			<td>act@example.com</td>
-			</tr>
+				
 			</tbody>
 		</table>
 		
@@ -136,5 +125,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 	<script type="text/javascript" src="/js/application.js"></script>
+	 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPyJ1OvFgnfX_RsLq1mx0V8nooRyFONTQ&libraries=places&callback=initAutocomplete" async defer></script>
+	
   </body>
 </html>

@@ -30,32 +30,115 @@ app.controller('businessInsightsCtrl', function($scope) {
 		{'id':'WiFi', 'value':'WiFi', 'options':[{'id': 'no', 'value':'No'}, {'id': 'free', 'value':'Free'}, {'id': 'paid', 'value':'Paid'}, {'id': 'na', 'value':'Not Applicable'}], 'selected':'na'}
 	]
 	$scope.selectedCategory = undefined
+	$scope.errordetails = undefined
+	$scope.suggestions = 
 	$scope.postUserAttributes = function() {
-		if($('#category').val().trim() === "") {
-			console.error("Category cannot be null!!");
-			return;
-		}
-		
-		var post_data = {Attributes: {}, Category: {}};
-		for(var i = 0; i < $scope.booleanAttributes.length; i++) {
-			post_data.Attributes[$scope.booleanAttributes[i].id] = $scope.booleanAttributes[i].selected
-		}
-		for(var i = 0; i < $scope.multiValuedAttributes.length; i++) {
-			post_data.Attributes[$scope.multiValuedAttributes[i].id] = $scope.multiValuedAttributes[i].selected
-		}
-		post_data.Category = $scope.selectedCategory
-		
-		$.ajax({
-			url:"/predict",
-			type: "POST",
-			contentType:"application/json",
-			dataType:"json",
-			data: JSON.stringify(post_data)
-		}).done(function(response) {
-			$("#successdiv").show()
-			$("#successrating").text((response*10).toFixed(2) + "%")
-			$("#percentimprovement").text("+0.0%")
+		$("#error").hide();
+		$("#successdiv").hide();
+		$("#insightstable").hide();
+		var businesslocation = $("#distanceac").val()
+		$.get("/elevation?location=" + businesslocation, function( data ) {
+			elevation = data
+			if($('#category').val().trim() === "") {
+				console.error("Category cannot be null!!");
+				return;
+			}
+			
+			var post_data = {Attributes: {}, Category: {}};
+			post_data.Attributes['elevation'] = parseFloat(elevation)
+			for(var i = 0; i < $scope.booleanAttributes.length; i++) {
+				post_data.Attributes[$scope.booleanAttributes[i].id] = $scope.booleanAttributes[i].selected
+			}
+			for(var i = 0; i < $scope.multiValuedAttributes.length; i++) {
+				post_data.Attributes[$scope.multiValuedAttributes[i].id] = $scope.multiValuedAttributes[i].selected
+			}
+			post_data.Category = $scope.selectedCategory
+			console.log(post_data)
+			$.ajax({
+				url:"/predict",
+				type: "POST",
+				contentType:"application/json",
+				dataType:"json",
+				data: JSON.stringify(post_data),
+				success: function(resultData){
+					console.log(resultData);
+					$("#successdiv").show()
+					$("#successrating").text((resultData.current_rating*10).toFixed(2) + "%")
+					var improvement = (resultData.improved_rating*10 - resultData.current_rating*10).toFixed(2);
+					var improvement_str = "";
+					if(improvement > 0) {
+						improvementcolor = "green";
+						improvement_str += "+" + improvement + "%";
+					}
+					else {
+						improvementcolor = "red";
+						improvement_str += improvement + "%";
+					}
+					$("#percentimprovement").text(improvement_str);
+					$("#percentimprovement").css("color", improvementcolor);
+					$("#successratingafter").text((resultData.improved_rating*10).toFixed(2) + "%");
+					$("#successratingafter").css("color", improvementcolor);
+					var suggestedAttributeValues = resultData.suggested_preferences;
+					var difference = {}
+					for(attributes in suggestedAttributeValues) {
+						difference[attributes] = {}
+						difference[attributes].current = post_data.Attributes[attributes]
+						difference[attributes].suggested = suggestedAttributeValues[attributes]
+					}
+					for(var i = 0; i < $scope.booleanAttributes.length; i++) {
+						difference[$scope.booleanAttributes[i].id].name = $scope.booleanAttributes[i].value;
+						if(difference[$scope.booleanAttributes[i].id].current)
+							difference[$scope.booleanAttributes[i].id].current = 'Available'
+						else
+							difference[$scope.booleanAttributes[i].id].current = 'Not Available'
+						if(difference[$scope.booleanAttributes[i].id].suggested)
+							difference[$scope.booleanAttributes[i].id].suggested = 'Available'
+						else
+							difference[$scope.booleanAttributes[i].id].suggested = 'Not Available'
+					}
+					for(var i = 0; i < $scope.multiValuedAttributes.length; i++) {
+						difference[$scope.multiValuedAttributes[i].id].name = $scope.multiValuedAttributes[i].value;
+						for(var j = 0; j < $scope.multiValuedAttributes[i].options.length; j++) {
+							if($scope.multiValuedAttributes[i].options[j].id == difference[$scope.multiValuedAttributes[i].id].current)
+								difference[$scope.multiValuedAttributes[i].id].current = $scope.multiValuedAttributes[i].options[j].value;
+							if($scope.multiValuedAttributes[i].options[j].id == difference[$scope.multiValuedAttributes[i].id].suggested)
+								difference[$scope.multiValuedAttributes[i].id].suggested = $scope.multiValuedAttributes[i].options[j].value;
+							
+						}
+					}
+					$("#suggestiontable tbody tr").remove();
+					$("#insightstable").show();
+					var suggestion_table = $("#suggestiontable");
+					for(suggestion in difference) {
+						if(suggestion && difference[suggestion].current != difference[suggestion].suggested) {
+							$("#suggestiontable tbody").append("<tr><td style=\"font-style: italic; font-weight: bold\">" + difference[suggestion].name + "</td><td style=\"color: red;\">" + difference[suggestion].current + "</td><td style=\"color: green;\">" + difference[suggestion].suggested + "</td></tr>")
+						}
+					}
+				},
+				error: function(response){
+					if(response.responseJSON.message.current_rating) {
+						$("#successdiv").show()
+						$("#successrating").text((response.responseJSON.message.current_rating*10).toFixed(2) + "%")
+					}
+					$("#error").show();
+					$("#errordetails").text(response.responseJSON.message.error);
+				}
+			})
+		}).fail(function(jqXHR,status,err){
+			$("#error").show();
+			$("#errordetails").text(jqXHR.responseJSON.message.error);
 		})
+		
 	}
 
 });
+ function initAutocomplete() {
+	// Create the autocomplete object, restricting the search to geographical
+	// location types.
+	autocomplete = new google.maps.places.Autocomplete(
+		/** @type {!HTMLInputElement} */(document.getElementById('distanceac')),
+		{types: ['geocode']});
+
+	// When the user selects an address from the dropdown, populate the address
+	// fields in the form.
+}
